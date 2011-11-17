@@ -1,1 +1,18 @@
-readme
+gettext parser for poEdit
+supported formats
+
+JavaScript - for jquery.gettext plugin
+_('Text for translation')
+
+Smarty - for block.t plugin
+{t}Text for translation{/t}
+
+At the moment, plurals are not supported
+
+Usage (Smarty adapter for example, same for other adapters):
+In poEdit File->Preferences->Parsers->New
+
+Parser command: php.exe -f "/path/to/GettextParser/index.php" Smarty %o %C %K %F
+An item in keywords list: -k%k
+An item in input files list: -%f
+Source code charset: --from-code=%c
