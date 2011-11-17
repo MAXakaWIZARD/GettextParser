@@ -17,8 +17,11 @@ abstract class GettextParserAdapter
         $results = array();
         foreach( $this->_patterns as $pattern )
         {
-            preg_match_all( $pattern, $inData, $matches );
-            $results = array_merge( $results, $matches[1] );
+            $result = preg_match_all( $pattern, $inData, $matches, PREG_PATTERN_ORDER );
+            if( $result !== false && $result > 0 )
+            {
+                $results = array_merge( $results, $matches[1] );
+            }
         }
 
         return $results;

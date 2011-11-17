@@ -1,5 +1,7 @@
 <?php
 
+require_once( 'GettextParserAdapter.php' );
+
 class GettextParser
 {
     /**
@@ -37,9 +39,9 @@ class GettextParser
     public function __construct( $inAdapterName )
     {
         $this->_base_path = realpath( __DIR__ );
-
+        
         //init files
-        $this->_log_path = $this->_base_path . '/log_' . date( 'Y-m-d H:i:s' ) . '.txt';
+        $this->_log_path = $this->_base_path . '/log_' . date( 'Y-m-d_His' ) . '.txt';
         $this->_result_path = sys_get_temp_dir() . '/poedit_' . md5( time() ) . '.php';
 
         if( is_string( $inAdapterName ) )
@@ -55,12 +57,16 @@ class GettextParser
     public function loadAdapter( $inAdapterName )
     {
         $targetClassName = 'GettextParserAdapter_' . $inAdapterName;
-        $targetFilePath = "GettextParserAdapter/{$inAdapterName}.php";
+        $targetFilePath = $this->_base_path . DIRECTORY_SEPARATOR . str_replace( '_', DIRECTORY_SEPARATOR, $targetClassName ) . ".php";
 
         if( is_file( $targetFilePath ) )
         {
             require_once( $targetFilePath );
             $this->_adapter = new $targetClassName;
+        }
+        else
+        {
+            throw new Exception( "Cannot load Adapter {$targetClassName}" );
         }
     }
 
@@ -78,45 +84,40 @@ class GettextParser
      */
     public function parse( $inParams )
     {
+        $this->log( print_r( $inParams, true ) );
+        
         $text = '';
         $result = '';
-        $found_in = array();
+        $files_list = array();
 
         $params_count = count( $inParams );
-        for( $k=6; $k <= $params_count; $k++ )
+        for( $k = 7; $k <= $params_count; $k++ )
         {
-            $file = $inParams[$k];
-            $files = explode( ';', $file );
-            foreach( $files as $file )
-            {
-                 if( $file )
-                 {
-                     if( is_file( $file ) )
-                     {
-                        $text .= file_get_contents( $file );
-                        $found_in[] = $file;
-                     }
-                     else
-                     {
-                         $this->log( "File $file not found" . PHP_EOL );
-                     }
-                 }
-            }
+             $file_path = $inParams[$k];
+             if( is_file( $file_path ) )
+             {
+                $text .= file_get_contents( $file_path );
+                $files_list[] = $file_path;
+             }
+             else
+             {
+                 $this->log( "File {$file_path} not found" . PHP_EOL );
+             }
         }
 
         $mod = $this->getAdapter()->parse( $text );
 
         if( $mod )
         {
-          foreach( $mod as $value )
-          {
-              $result .= '_("'.$value.'");'."\n";
-          }
-          $result = "<?php\n/*\n".implode("\n",$found_in)."*/\n\n".$result."\n?>";
+            foreach( $mod as $value )
+            {
+                $result .= '_("'.$value.'");'."\n";
+            }
+            $result = "<?php\n/*\n".implode("\n",$files_list)."*/\n\n".$result."\n";
 
-          $this->writeData( $result );
-          chdir( $this->_xgettext_dir );
-          exec( 'xgettext.exe --force-po -o "'.$inParams[1].'" '.$inParams[2].' '.$inParams[3].' '.$this->_result_path );
+            $this->writeData( $result );
+            chdir( $this->_xgettext_dir );
+            exec( 'xgettext.exe --force-po -o "'.$inParams[2].'" '.$inParams[3].' '.$inParams[4].' '.$this->_result_path );
         }
         else
         {
