@@ -3,7 +3,7 @@
 abstract class GettextParserAdapter
 {
     /**
-     * array, that stores parsing patterns
+     * stores parsing patterns
      * @var array
      */
     protected $_patterns = array();
@@ -15,6 +15,7 @@ abstract class GettextParserAdapter
     public function parse( $inData )
     {
         $results = array();
+        
         foreach( $this->_patterns as $pattern )
         {
             $result = preg_match_all( $pattern, $inData, $matches, PREG_PATTERN_ORDER );
