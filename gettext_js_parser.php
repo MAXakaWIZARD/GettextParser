@@ -4,8 +4,9 @@ $gettext_pattern = array(
   "~n_\([\s]*[\s]*\)~" //search for plural calls: n_( 'country', 'countries', 3 );
 );
 
+define( 'BASE_PATH', realpath( __DIR__ ) );
 define( 'RESULT_FILE', sys_get_temp_dir() . '/poedit_js_' . md5( time() ) . '.php'  );
-define( 'LOG_FILE', 'D:/gettext_js_temp_log.log' );
+define( 'LOG_FILE', BASE_PATH . '/gettext_js_temp_log.log' );
 
 function _log($s, $filename)
 {

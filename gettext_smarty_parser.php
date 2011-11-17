@@ -4,7 +4,7 @@ $gettext_pattern = array(
   "~\{t\}([^\{]+)\{/t\}~"           // search for smarty modifier: {t}Text to be localized{/t}
 );
 
-//define( 'RESULT_FILE', 'D:/gettext_temp.php' );
+define( 'BASE_PATH', realpath( __DIR__ ) );
 define( 'RESULT_FILE', sys_get_temp_dir() . '/poedit_' . md5( time() ) . '.php'  );
 define( 'LOG_FILE', 'D:/gettext_temp_log.log' );
 
