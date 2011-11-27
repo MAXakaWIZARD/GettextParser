@@ -1,6 +1,7 @@
 <?php
 
 require_once( 'GettextParserAdapter.php' );
+require_once( 'GettextParserPattern.php' );
 
 class GettextParser
 {
@@ -52,7 +53,7 @@ class GettextParser
         
         //init files
         $this->_log_path = $this->_base_path . '/log.txt';
-        $this->_result_path = sys_get_temp_dir() . '/poedit_' . md5( time() ) . '.php';
+        $this->_result_path = sys_get_temp_dir() . '/poedit_' . $inAdapterName . '_' . md5( microtime() ) . '.php';
 
         if( is_string( $inAdapterName ) )
         {
@@ -88,7 +89,7 @@ class GettextParser
     /**
      * @return GettextParserAdapter
      */
-    private function getAdapter()
+    public function getAdapter()
     {
         return $this->_adapter;
     }
@@ -103,10 +104,12 @@ class GettextParser
         $this->processParams( $inParams );
         $this->parse();
 
-        if( $this->_phrases_list )
+        if( count( $this->_phrases_list ) )
         {
-            $this->writeOutput();
-            $this->executePoEditParser();
+            if( $this->writeOutput() )
+            {
+                $this->executePoEditParser( $inParams );
+            }
         }
         else
         {
@@ -124,7 +127,7 @@ class GettextParser
         $this->_files_list = array();
 
         $params_count = count( $inParams );
-        for( $k = 7; $k <= $params_count; $k++ )
+        for( $k = 7; $k < $params_count; $k++ )
         {
              $this->_files_list[] = $inParams[$k];
         }
@@ -141,15 +144,15 @@ class GettextParser
         {
             if( is_readable( $file_path ) )
             {
-                $phrases_file_list = $this->getAdapter()->parse( file_get_contents( $file_path ) );
-                if( is_array(  ) )
+                $phrases = $this->getAdapter()->parse( file_get_contents( $file_path ) );
+                if( is_array( $phrases ) )
                 {
-                    $this->_phrases_list = array_merge( $this->_phrases_list, $phrases_file_list );
+                    $this->_phrases_list = array_merge( $this->_phrases_list, $phrases );
                 }
             }
             else
             {
-                $this->log( "File {$file_path} not found" . PHP_EOL );
+                $this->log( "Cannot read file {$file_path}" . PHP_EOL );
             }
         }
     }
@@ -160,9 +163,29 @@ class GettextParser
      */
     private function writeOutput()
     {
+        //$this->log( print_r( $this->_phrases_list, true ) );
+
         foreach( $this->_phrases_list as $phrase )
         {
-            $gettext_calls_buffer .= '_("'.$phrase.'");' . PHP_EOL;
+            if( is_array( $phrase ) )
+            {
+                //plural
+                $gettext_calls_buffer .= 'ngettext(';
+                foreach( $phrase as $idx => $item )
+                {
+                    if( $idx > 0 )
+                    {
+                        $gettext_calls_buffer .= ', ';
+                    }
+                    $gettext_calls_buffer .= '"'.$item.'"';
+                }
+                $gettext_calls_buffer .= ', 3 );' . PHP_EOL;
+            }
+            else
+            {
+                //single
+                $gettext_calls_buffer .= '_("'.$phrase.'");' . PHP_EOL;
+            }
         }
 
         $result = "<?php" . PHP_EOL . "/*" . PHP_EOL . implode( PHP_EOL, $this->_files_list ) . "*/";
@@ -174,7 +197,7 @@ class GettextParser
     /**
      * @return void
      */
-    private function executePoEditParser()
+    private function executePoEditParser( $inParams )
     {
         chdir( $this->_xgettext_dir );
 
