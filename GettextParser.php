@@ -48,20 +48,20 @@ class GettextParser
 
 
     /**
-     * @param $inAdapterName
+     * @param $adapterName
      *
      * @throws Exception
      */
-    public function __construct($inAdapterName)
+    public function __construct($adapterName)
     {
         $this->_basePath = realpath(__DIR__);
 
         //init files
         $this->_logPath = $this->_basePath . '/log.txt';
-        $this->_resultPath = sys_get_temp_dir() . '/poedit_' . $inAdapterName . '_' . md5(microtime()) . '.php';
+        $this->_resultPath = sys_get_temp_dir() . '/poedit_' . $adapterName . '_' . md5(microtime()) . '.php';
 
-        if (is_string($inAdapterName)) {
-            $this->loadAdapter($inAdapterName);
+        if (is_string($adapterName)) {
+            $this->loadAdapter($adapterName);
         } else {
             throw new Exception('AdapterName not specified');
         }
@@ -70,15 +70,15 @@ class GettextParser
     /**
      * loads adapter
      *
-     * @param $inAdapterName
+     * @param $adapterName
      *
      * @throws Exception
      *
      * @return void
      */
-    private function loadAdapter($inAdapterName)
+    private function loadAdapter($adapterName)
     {
-        $targetClassName = 'GettextParserAdapter_' . $inAdapterName;
+        $targetClassName = 'GettextParserAdapter_' . $adapterName;
         $targetFilePath
             = $this->_basePath . DIRECTORY_SEPARATOR . str_replace('_', DIRECTORY_SEPARATOR, $targetClassName) . ".php";
 
@@ -101,38 +101,40 @@ class GettextParser
     /**
      * performs files parsing and generates output for poEdit parser
      *
-     * @param $inParams
+     * @param $params
      *
      * @return void
      */
-    public function run($inParams)
+    public function run($params)
     {
-        $this->processParams($inParams);
+        $this->log(implode(' ', $params));
+
+        $this->processParams($params);
         $this->parse();
 
-        if (count($this->_phrasesList)) {
-            if ($this->writeOutput()) {
-                $this->executePoEditParser($inParams);
-            }
-        } else {
+        if (!count($this->_phrasesList)) {
             $this->log('Nothing found!');
+        }
+
+        if ($this->writeOutput()) {
+            $this->executePoEditParser($params);
         }
     }
 
     /**
      * processes params and sets some variables
      *
-     * @param $inParams
+     * @param $params
      *
      * @return void
      */
-    private function processParams($inParams)
+    private function processParams($params)
     {
         $this->_filesList = array();
 
-        $paramsCount = count($inParams);
+        $paramsCount = count($params);
         for ($k = 7; $k < $paramsCount; $k++) {
-            $this->_filesList[] = $inParams[$k];
+            $this->_filesList[] = $params[$k];
         }
     }
 
@@ -163,6 +165,7 @@ class GettextParser
     private function writeOutput()
     {
         //$this->log( print_r( $this->_phrases_list, true ) );
+        $gettextCallsBuffer = '';
 
         foreach ($this->_phrasesList as $phrase) {
             if (is_array($phrase)) {
@@ -174,7 +177,7 @@ class GettextParser
                     }
                     $gettextCallsBuffer .= '"' . $item . '"';
                 }
-                $gettextCallsBuffer .= ', 3 );' . PHP_EOL;
+                $gettextCallsBuffer .= ', 3);' . PHP_EOL;
             } else {
                 //single
                 $gettextCallsBuffer .= '_("' . $phrase . '");' . PHP_EOL;
@@ -188,14 +191,16 @@ class GettextParser
     }
 
     /**
-     * @param $inParams
+     * @param $params
      */
-    private function executePoEditParser($inParams)
+    private function executePoEditParser($params)
     {
         chdir($this->_xgettextDir);
 
-        $cmd = 'xgettext.exe --force-po -o "' . $inParams[2] . '" ' . $inParams[3] . ' ' . $inParams[4] . ' '
-            . $this->_resultPath;
+        $cmd = 'xgettext.exe --force-po -o "' . $params[2] . '" ' . $params[3] . ' ' . $params[4] . ' "'
+            . $this->_resultPath . '"';
+
+        $this->log($cmd);
 
         exec($cmd);
     }
@@ -203,14 +208,14 @@ class GettextParser
     /**
      * writes messages to log
      *
-     * @param $inMessage
+     * @param $message
      *
      * @return void
      */
-    private function log($inMessage)
+    private function log($message)
     {
         $f = fopen($this->_logPath, 'a');
-        fwrite($f, $inMessage);
+        fwrite($f, $message . PHP_EOL);
         fclose($f);
     }
 }
