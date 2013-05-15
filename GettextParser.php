@@ -3,8 +3,8 @@
 require_once('GettextParserAdapter.php');
 require_once('GettextParserPattern.php');
 
-class GettextParser
-{
+class GettextParser {
+
     /**
      * @var GettextParserAdapter
      */
@@ -46,14 +46,12 @@ class GettextParser
      */
     private $_xgettextDir = 'C:\Program Files (x86)\Poedit\bin';
 
-
     /**
      * @param $adapterName
      *
      * @throws Exception
      */
-    public function __construct($adapterName)
-    {
+    public function __construct($adapterName) {
         $this->_basePath = realpath(__DIR__);
 
         //init files
@@ -76,11 +74,10 @@ class GettextParser
      *
      * @return void
      */
-    private function loadAdapter($adapterName)
-    {
+    private function loadAdapter($adapterName) {
         $targetClassName = 'GettextParserAdapter_' . $adapterName;
         $targetFilePath
-            = $this->_basePath . DIRECTORY_SEPARATOR . str_replace('_', DIRECTORY_SEPARATOR, $targetClassName) . ".php";
+                = $this->_basePath . DIRECTORY_SEPARATOR . str_replace('_', DIRECTORY_SEPARATOR, $targetClassName) . ".php";
 
         if (is_file($targetFilePath)) {
             require_once($targetFilePath);
@@ -93,8 +90,7 @@ class GettextParser
     /**
      * @return GettextParserAdapter
      */
-    public function getAdapter()
-    {
+    public function getAdapter() {
         return $this->_adapter;
     }
 
@@ -105,8 +101,7 @@ class GettextParser
      *
      * @return void
      */
-    public function run($params)
-    {
+    public function run($params) {
         $this->log(implode(' ', $params));
 
         $this->processParams($params);
@@ -128,21 +123,20 @@ class GettextParser
      *
      * @return void
      */
-    private function processParams($params)
-    {
+    private function processParams($params) {
         $this->_filesList = array();
 
-        $paramsCount = count($params);
-        for ($k = 7; $k < $paramsCount; $k++) {
-            $this->_filesList[] = $params[$k];
+        foreach ($params AS $v) {
+            if (preg_match('#(\.tpl|\.html|\.htm)$#i', $v)) {
+                $this->_filesList[] = preg_replace('#^-#', '', $v);
+            }
         }
     }
 
     /**
      * @return void
      */
-    private function parse()
-    {
+    private function parse() {
         $this->_phrasesList = array();
 
         foreach ($this->_filesList as $filePath) {
@@ -162,8 +156,7 @@ class GettextParser
      *
      * @return bool
      */
-    private function writeOutput()
-    {
+    private function writeOutput() {
         //$this->log( print_r( $this->_phrases_list, true ) );
         $gettextCallsBuffer = '';
 
@@ -187,18 +180,17 @@ class GettextParser
         $result = "<?php" . PHP_EOL . "/*" . PHP_EOL . implode(PHP_EOL, $this->_filesList) . "*/";
         $result .= str_repeat(PHP_EOL, 2) . $gettextCallsBuffer;
 
-        return ( bool )file_put_contents($this->_resultPath, $result, FILE_BINARY);
+        return (bool) file_put_contents($this->_resultPath, $result, FILE_BINARY);
     }
 
     /**
      * @param $params
      */
-    private function executePoEditParser($params)
-    {
+    private function executePoEditParser($params) {
         chdir($this->_xgettextDir);
 
         $cmd = 'xgettext.exe --force-po -o "' . $params[2] . '" ' . $params[3] . ' ' . $params[4] . ' "'
-            . $this->_resultPath . '"';
+                . $this->_resultPath . '"';
 
         $this->log($cmd);
 
@@ -212,10 +204,10 @@ class GettextParser
      *
      * @return void
      */
-    private function log($message)
-    {
+    private function log($message) {
         $f = fopen($this->_logPath, 'a');
         fwrite($f, $message . PHP_EOL);
         fclose($f);
     }
+
 }
