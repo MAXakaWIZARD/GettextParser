@@ -42,6 +42,11 @@ class GettextParser {
     private $_filesList = array();
 
     /**
+     * @var array
+     */
+    private $_functionsList = array();
+
+    /**
      * @var string
      */
     private $_xgettextDir = 'C:\Program Files (x86)\Poedit\bin';
@@ -51,15 +56,24 @@ class GettextParser {
      *
      * @throws Exception
      */
-    public function __construct($adapterName) {
+    public function __construct($params = "") {
         $this->_basePath = realpath(__DIR__);
+
+        if (empty($params)) {
+            $params = $_SERVER['argv'];
+        }
+
+        $adapterName = $_SERVER['argv'][1];
 
         //init files
         $this->_logPath = $this->_basePath . '/log.txt';
         $this->_resultPath = sys_get_temp_dir() . '/poedit_' . $adapterName . '_' . md5(microtime()) . '.php';
 
         if (is_string($adapterName)) {
+            $this->log(implode(' ', $params));
+            $this->processParams($params);
             $this->loadAdapter($adapterName);
+            $this->run($params);
         } else {
             throw new Exception('AdapterName not specified');
         }
@@ -81,7 +95,7 @@ class GettextParser {
 
         if (is_file($targetFilePath)) {
             require_once($targetFilePath);
-            $this->_adapter = new $targetClassName;
+            $this->_adapter = new $targetClassName($this->_functionsList);
         } else {
             throw new Exception("Cannot load Adapter {$targetClassName}");
         }
@@ -102,9 +116,6 @@ class GettextParser {
      * @return void
      */
     public function run($params) {
-        $this->log(implode(' ', $params));
-
-        $this->processParams($params);
         $this->parse();
 
         if (!count($this->_phrasesList)) {
@@ -124,10 +135,13 @@ class GettextParser {
      * @return void
      */
     private function processParams($params) {
+        $this->_functionsList = array();
         $this->_filesList = array();
 
         foreach ($params AS $v) {
-            if (preg_match('#(\.tpl|\.html|\.htm)$#i', $v)) {
+            if (preg_match('#-k([^\s]+)#i', $v, $matches)) {
+                $this->_functionsList[] = $matches[1];
+            } else if (preg_match('#(\.tpl|\.html|\.htm)$#i', $v)) {
                 $this->_filesList[] = preg_replace('#^-#', '', $v);
             }
         }
