@@ -17,7 +17,7 @@ In poEdit go to File->Preferences->Parsers->New
 
 Enter such params
 Parser command: php.exe -f "/path/to/GettextParser/index.php" Smarty %o %C %K %F
-List of extensions: *.tpl
+List of extensions: *.tpl;*.html;*.htm
 An item in keywords list: -k%k
 An item in input files list: -%f
 Source code charset: --from-code=%c
