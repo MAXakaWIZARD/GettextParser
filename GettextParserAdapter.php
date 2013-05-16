@@ -14,7 +14,8 @@ abstract class GettextParserAdapter {
      */
     protected $_functionsList = array();
 
-    public function __construct($functionsList = "") {
+    public function __construct($functionsList = "")
+    {
         $this->_functionsList = (!empty($functionsList)) ? $functionsList : array("_");
     }
 
@@ -22,12 +23,15 @@ abstract class GettextParserAdapter {
      * @param $inData
      * @return array
      */
-    public function parse($inData) {
+    public function parse($inData)
+    {
         $results = array();
 
-        foreach ($this->_patterns as $pattern) {
+        foreach ($this->_patterns as $pattern)
+        {
             $result = $pattern->match($inData);
-            if ($result !== false) {
+            if ($result !== false)
+            {
                 $results = array_merge($results, $result);
             }
         }
