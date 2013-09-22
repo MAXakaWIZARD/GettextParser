@@ -60,7 +60,10 @@ Library is covered with unit tests.
 For running those tests you'll need [PHPUnit](https://github.com/sebastianbergmann/phpunit/).
 It's recommended to use phpunit.phar.
 
-Just specify `tests/phpunit.xml` as config file for PHPUnit.
+Just specify `tests/phpunit.xml` as config file for PHPUnit:
+```
+php phpunit.phar -c tests/phpunit.xml
+```
 
 ## License
 This library is released under [MIT](http://www.tldrlegal.com/license/mit-license) license.
