@@ -18,7 +18,7 @@ class GettextParserAdapter_JavaScript extends GettextParserAdapter
             true
         );
 
-        //search for plural calls: n_( 'день', 'дня', 'дней', 3 );
+        //search for plural calls: n_( 'день', 'дней', 3 );
         $this->_patterns[] = new GettextParserPattern(
             "~n_\([\s]*[\'\"]{1}(.*)[\'\"]{1}[\s]*,[\s]*[\'\"]{1}(.*)[\'\"]{1}[\s]*,[\s]*[\'\"]{1}(.*)[\'\"]{1}[\s]*,[\s]*(.*)[\s]*\)~Uu",
             true

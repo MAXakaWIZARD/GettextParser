@@ -5,6 +5,7 @@
 jQuery.gettext plugin:
 ```javascript
 _('Text to be localized')
+n_('country', 'countries', 3);
 ```
 
 ### Smarty
@@ -19,7 +20,7 @@ native:
 ```
 
 ## Known issues:
-* plurals are not supported (planned)
+* plurals are not supported for Smarty (planned)
 * works only on Windows (via xgettext.exe)
 
 ## Usage (Smarty parser example):
