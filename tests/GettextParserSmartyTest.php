@@ -7,20 +7,20 @@ class GettextParserSmartyTest extends PHPUnit_Framework_TestCase
     /**
      * @var GettextParser
      */
-    private $_parser;
+    private $parser;
 
     /**
      * @var GettextParser_Adapter
      */
-    private $_adapter;
+    private $adapter;
 
     /**
      *
      */
     public function setUp()
     {
-        $this->_parser = new GettextParser('Smarty');
-        $this->_adapter = $this->_parser->getAdapter();
+        $this->parser = new GettextParser('Smarty');
+        $this->adapter = $this->parser->getAdapter();
     }
 
     /**
@@ -32,14 +32,22 @@ class GettextParserSmartyTest extends PHPUnit_Framework_TestCase
     }
 
     /**
+     *
+     */
+    public function testAdapter()
+    {
+        $this->assertEquals('GettextParserAdapter_Smarty', get_class($this->adapter));
+    }
+
+    /**
      * @dataProvider providerSingle
      *
-     * @param $inString
-     * @param $inResult
+     * @param $string
+     * @param $result
      */
-    public function testSingle($inString, $inResult)
+    public function testSingle($string, $result)
     {
-        $this->assertEquals($inResult, $this->_adapter->parse($inString));
+        $this->assertEquals($result, $this->adapter->parse($string));
     }
 
     /**
@@ -66,12 +74,12 @@ class GettextParserSmartyTest extends PHPUnit_Framework_TestCase
     /**
      * @dataProvider providerPlural
      *
-     * @param $inString
-     * @param $inResult
+     * @param $string
+     * @param $result
      */
-    public function testPlural($inString, $inResult)
+    public function testPlural($string, $result)
     {
-        $this->assertEquals($inResult, $this->_adapter->parse($inString));
+        $this->assertEquals($result, $this->adapter->parse($string));
     }
 
     /**

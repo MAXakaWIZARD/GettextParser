@@ -6,22 +6,20 @@ abstract class GettextParserAdapter
      * stores parsing patterns
      * @var array of GettextParserPattern
      */
-    protected $_patterns = array();
+    protected $patterns = array();
 
     /**
-     * @param $inData
+     * @param $data
      * @return array
      */
-    public function parse( $inData )
+    public function parse($data)
     {
         $results = array();
-        
-        foreach( $this->_patterns as $pattern )
-        {
-            $result = $pattern->match( $inData );
-            if( $result !== false )
-            {
-                $results = array_merge( $results, $result );
+
+        foreach ($this->patterns as $pattern) {
+            $result = $pattern->match($data);
+            if ($result !== false) {
+                $results = array_merge($results, $result);
             }
         }
 
