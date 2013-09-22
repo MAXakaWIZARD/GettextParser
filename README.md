@@ -1,4 +1,6 @@
 # gettext parser for poEdit
+[![Build Status](https://api.travis-ci.org/MAXakaWIZARD/GettextParser.png?branch=dev)](https://travis-ci.org/MAXakaWIZARD/GettextParser)
+
 Library for syncing gettext catalogs with Smarty and Javascript sources.
 
 This package is compliant with [PSR-0](http://www.php-fig.org/psr/0/), [PSR-1](http://www.php-fig.org/psr/1/), and [PSR-2](http://www.php-fig.org/psr/2/).
