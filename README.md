@@ -1,5 +1,5 @@
 # gettext parser for poEdit
-[![Build Status](https://travis-ci.org/auraphp/MAXakaWIZARD.GettextParser.png?branch=dev)](https://travis-ci.org/MAXakaWIZARD/GettextParser)
+[![Build Status](https://api.travis-ci.org/MAXakaWIZARD/GettextParser.png?branch=dev)](https://travis-ci.org/MAXakaWIZARD/GettextParser)
 
 Library for syncing gettext catalogs with Smarty and Javascript sources.
 
