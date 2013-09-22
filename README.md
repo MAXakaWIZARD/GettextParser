@@ -1,4 +1,6 @@
 # gettext parser for poEdit
+[![Build Status](https://travis-ci.org/auraphp/MAXakaWIZARD.GettextParser.png?branch=dev)](https://travis-ci.org/MAXakaWIZARD/GettextParser)
+
 Library for syncing gettext catalogs with Smarty and Javascript sources.
 
 This package is compliant with [PSR-0](http://www.php-fig.org/psr/0/), [PSR-1](http://www.php-fig.org/psr/1/), and [PSR-2](http://www.php-fig.org/psr/2/).
@@ -60,11 +62,10 @@ Library is covered with unit tests.
 For running those tests you'll need [PHPUnit](https://github.com/sebastianbergmann/phpunit/).
 It's recommended to use phpunit.phar.
 
+Just specify `tests/phpunit.xml` as config file for PHPUnit:
 ```
 php phpunit.phar -c tests/phpunit.xml
 ```
-
-Just specify `tests/phpunit.xml` as config file for PHPUnit.
 
 ## License
 This library is released under [MIT](http://www.tldrlegal.com/license/mit-license) license.
