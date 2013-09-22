@@ -7,6 +7,12 @@ _('Text for translation')
 Smarty - for block.t plugin
 {t}Text for translation{/t}
 
+Smarty3
+{_('Text for translation')}
+{'Text for translation'|_}
+{custom_function('Text for translation')}
+{'Text for translation'|custom_function}
+
 Known issues:
 - plurals are not supported (planned)
 - works only on Windows (via xgettext.exe)
@@ -17,7 +23,7 @@ In poEdit go to File->Preferences->Parsers->New
 
 Enter such params
 Parser command: php.exe -f "/path/to/GettextParser/index.php" Smarty %o %C %K %F
-List of extensions: *.tpl
+List of extensions: *.tpl;*.html;*.htm
 An item in keywords list: -k%k
 An item in input files list: -%f
 Source code charset: --from-code=%c
