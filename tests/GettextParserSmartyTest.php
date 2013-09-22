@@ -51,6 +51,14 @@ class GettextParserSmartyTest extends PHPUnit_Framework_TestCase
             array(
                 "{t}cat{/t}",
                 array('cat')
+            ),
+            array(
+                '{_("Text to be localized")}',
+                array('Text to be localized')
+            ),
+            array(
+                '{"Text to be localized"|_}',
+                array('Text to be localized')
             )
         );
     }
