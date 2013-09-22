@@ -85,8 +85,8 @@ class GettextParserJavascriptTest extends PHPUnit_Framework_TestCase
                 array(array('match', 'matches'))
             ),
             array(
-                "n_( 'день', 'дня', 'дней', 3 );",
-                array(array('день', 'дня', 'дней'))
+                "n_( 'день', 'дней', 3 );",
+                array(array('день', 'дней'))
             )
         );
     }
