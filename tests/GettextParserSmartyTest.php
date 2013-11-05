@@ -67,6 +67,14 @@ class GettextParserSmartyTest extends PHPUnit_Framework_TestCase
             array(
                 '{"Text to be localized"|_}',
                 array('Text to be localized')
+            ),
+            array(
+                '{t}User %FROM_EMAIL% has shared a video "%PLAYLIST_TITLE%" with you.{/t}',
+                array('User %FROM_EMAIL% has shared a video "%PLAYLIST_TITLE%" with you.')
+            ),
+            array(
+                '{t}You can watch it <a href="%PLAYLIST_URL%">here</a>{/t}',
+                array('You can watch it <a href="%PLAYLIST_URL%">here</a>')
             )
         );
     }
