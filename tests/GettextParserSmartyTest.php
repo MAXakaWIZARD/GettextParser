@@ -75,6 +75,10 @@ class GettextParserSmartyTest extends PHPUnit_Framework_TestCase
             array(
                 '{t}You can watch it <a href="%PLAYLIST_URL%">here</a>{/t}',
                 array('You can watch it <a href="%PLAYLIST_URL%">here</a>')
+            ),
+            array(
+                '{t sprintf_args=[$helper->getConfigOption(\'invite_reg_referal_bonus\')]}Invite friend and get +%d EUR to your account!{/t}',
+                array('Invite friend and get +%d EUR to your account!')
             )
         );
     }

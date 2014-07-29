@@ -44,21 +44,24 @@ class GettextParser
     /**
      * @var string
      */
-    protected $xgettextDir = 'C:\Program Files (x86)\Poedit\bin';
-
+    protected $xgettextDir = 'C:\Program Files (x86)\Poedit\GettextTools\bin';
 
     /**
      * @param $adapterName
-     *
+     * @param string $xgettextDir
      * @throws Exception
      */
-    public function __construct($adapterName)
+    public function __construct($adapterName, $xgettextDir = '')
     {
         $this->basePath = realpath(__DIR__);
 
         //init files
         $this->logPath = $this->basePath . '/log.txt';
         $this->resultPath = sys_get_temp_dir() . '/poedit_' . $adapterName . '_' . md5(microtime()) . '.php';
+
+        if ($xgettextDir) {
+            $this->xgettextDir = $xgettextDir;
+        }
 
         if (is_string($adapterName)) {
             $this->loadAdapter($adapterName);
