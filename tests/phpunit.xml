@@ -1,6 +1,6 @@
 <phpunit bootstrap="./bootstrap.php">
     <testsuites>
-        <testsuite>
+        <testsuite name="GettextParser Test Suite">
             <directory>.</directory>
         </testsuite>
     </testsuites>

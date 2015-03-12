@@ -1,12 +1,12 @@
 <?php
+namespace GettextParser;
 
-require_once('GettextParserAdapter.php');
-require_once('GettextParserPattern.php');
+use GettextParser\Adapter\AbstractAdapter;
 
-class GettextParser
+class Parser
 {
     /**
-     * @var GettextParserAdapter
+     * @var AbstractAdapter
      */
     protected $adapter;
 
@@ -49,11 +49,11 @@ class GettextParser
     /**
      * @param $adapterName
      * @param string $xgettextDir
-     * @throws Exception
+     * @throws \Exception
      */
     public function __construct($adapterName, $xgettextDir = '')
     {
-        $this->basePath = realpath(__DIR__);
+        $this->basePath = realpath(__DIR__.'/..');
 
         //init files
         $this->logPath = $this->basePath . '/log.txt';
@@ -66,7 +66,7 @@ class GettextParser
         if (is_string($adapterName)) {
             $this->loadAdapter($adapterName);
         } else {
-            throw new Exception('AdapterName not specified');
+            throw new \Exception('AdapterName not specified');
         }
     }
 
@@ -75,21 +75,18 @@ class GettextParser
      *
      * @param $adapterName
      *
-     * @throws Exception
+     * @throws \Exception
      *
      * @return void
      */
     protected function loadAdapter($adapterName)
     {
-        $targetClassName = 'GettextParserAdapter_' . $adapterName;
-        $targetFilePath
-            = $this->basePath . DIRECTORY_SEPARATOR . str_replace('_', DIRECTORY_SEPARATOR, $targetClassName) . ".php";
+        $targetClassName = '\\GettextParser\\Adapter\\' . $adapterName;
 
-        if (is_file($targetFilePath)) {
-            require_once($targetFilePath);
+        if (class_exists($targetClassName)) {
             $this->adapter = new $targetClassName;
         } else {
-            throw new Exception("Cannot load Adapter {$targetClassName}");
+            throw new \Exception("Cannot load Adapter {$adapterName}");
         }
     }
 

@@ -1,3 +1,4 @@
 <?php
-define('BASE_PATH', realpath(dirname(__FILE__) . '/..'));
-require_once(BASE_PATH . '/GettextParser.php');
+error_reporting(E_ALL);
+
+require_once('../vendor/autoload.php');

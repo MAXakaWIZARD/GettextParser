@@ -1,8 +1,10 @@
 <?php
+namespace GettextParser\Tests;
+
 /**
  *
  */
-class GettextParserSmartyTest extends PHPUnit_Framework_TestCase
+class JavascriptTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var GettextParser
@@ -19,7 +21,7 @@ class GettextParserSmartyTest extends PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->parser = new GettextParser('Smarty');
+        $this->parser = new \GettextParser\Parser('JavaScript');
         $this->adapter = $this->parser->getAdapter();
     }
 
@@ -36,7 +38,7 @@ class GettextParserSmartyTest extends PHPUnit_Framework_TestCase
      */
     public function testAdapter()
     {
-        $this->assertEquals('GettextParserAdapter_Smarty', get_class($this->adapter));
+        $this->assertEquals('GettextParser\\Adapter\\JavaScript', get_class($this->adapter));
     }
 
     /**
@@ -57,28 +59,8 @@ class GettextParserSmartyTest extends PHPUnit_Framework_TestCase
     {
         return array(
             array(
-                "{t}cat{/t}",
+                "_('cat');",
                 array('cat')
-            ),
-            array(
-                '{_("Text to be localized")}',
-                array('Text to be localized')
-            ),
-            array(
-                '{"Text to be localized"|_}',
-                array('Text to be localized')
-            ),
-            array(
-                '{t}User %FROM_EMAIL% has shared a video "%PLAYLIST_TITLE%" with you.{/t}',
-                array('User %FROM_EMAIL% has shared a video "%PLAYLIST_TITLE%" with you.')
-            ),
-            array(
-                '{t}You can watch it <a href="%PLAYLIST_URL%">here</a>{/t}',
-                array('You can watch it <a href="%PLAYLIST_URL%">here</a>')
-            ),
-            array(
-                '{t sprintf_args=[$helper->getConfigOption(\'invite_reg_referal_bonus\')]}Invite friend and get +%d EUR to your account!{/t}',
-                array('Invite friend and get +%d EUR to your account!')
             )
         );
     }
@@ -101,8 +83,20 @@ class GettextParserSmartyTest extends PHPUnit_Framework_TestCase
     {
         return array(
             array(
-                "{t}cat{/t}",
-                array('cat')
+                "n_('cat','cats',3);",
+                array(array('cat', 'cats'))
+            ),
+            array(
+                "n_('cat','cats', smartSearch.params.countries.length )",
+                array(array('cat', 'cats'))
+            ),
+            array(
+                "n_('match','matches',matches_count);$('#es_chosen_matches .visible_title').hide();",
+                array(array('match', 'matches'))
+            ),
+            array(
+                "n_( 'день', 'дней', 3 );",
+                array(array('день', 'дней'))
             )
         );
     }
