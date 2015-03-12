@@ -1,6 +1,8 @@
 <?php
 namespace GettextParser\Tests;
 
+use GettextParser\Parser;
+
 /**
  *
  */
@@ -21,7 +23,7 @@ class SmartyTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->parser = new \GettextParser\Parser('Smarty');
+        $this->parser = new Parser('Smarty');
         $this->adapter = $this->parser->getAdapter();
     }
 
@@ -79,7 +81,8 @@ class SmartyTest extends \PHPUnit_Framework_TestCase
                 array('You can watch it <a href="%PLAYLIST_URL%">here</a>')
             ),
             array(
-                '{t sprintf_args=[$helper->getConfigOption(\'invite_reg_referal_bonus\')]}Invite friend and get +%d EUR to your account!{/t}',
+                '{t sprintf_args=[$helper->getConfigOption(\'invite_reg_referal_bonus\')]}'
+                . 'Invite friend and get +%d EUR to your account!' . '{/t}',
                 array('Invite friend and get +%d EUR to your account!')
             )
         );

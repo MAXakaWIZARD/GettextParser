@@ -1,6 +1,8 @@
 <?php
 namespace GettextParser\Tests;
 
+use GettextParser\Parser;
+
 /**
  *
  */
@@ -21,7 +23,7 @@ class JavascriptTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->parser = new \GettextParser\Parser('JavaScript');
+        $this->parser = new Parser('JavaScript');
         $this->adapter = $this->parser->getAdapter();
     }
 
