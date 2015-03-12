@@ -12,7 +12,7 @@ Just download sources and unpack to any folder.
 
 ## Supported formats
 ### JavaScript
-jQuery.gettext plugin:
+[jQuery.gettext](https://github.com/jakob-stoeck/jquery-gettext) plugin:
 ```javascript
 _('Text to be localized')
 n_('country', 'countries', 3);
