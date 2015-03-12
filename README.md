@@ -39,7 +39,7 @@ native:
 * Parser command: `php.exe -f "/path/to/GettextParser/index.php" Smarty %o %C %K %F`
 * List of extensions: `*.tpl`
 * An item in keywords list: `-k%k`
-* An item in input files list: `-%f`
+* An item in input files list: `%f`
 * Source code charset: `--from-code=%c`
 
 #### JavaScript
@@ -47,7 +47,7 @@ native:
 * Parser command: `php.exe -f "/path/to/GettextParser/index.php" JavaScript %o %C %K %F`
 * List of extensions: `*.js`
 * An item in keywords list: `-k%k`
-* An item in input files list: `-%f`
+* An item in input files list: `%f`
 * Source code charset: `--from-code=%c`
 
 ## Known issues
