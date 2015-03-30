@@ -1,4 +1,4 @@
-# gettext parser for poEdit
+# gettext parser for Poedit
 [![Build Status](https://api.travis-ci.org/MAXakaWIZARD/GettextParser.png?branch=master)](https://travis-ci.org/MAXakaWIZARD/GettextParser) 
 [![Latest Stable Version](https://poser.pugx.org/maxakawizard/gettext-parser/v/stable.svg)](https://packagist.org/packages/maxakawizard/gettext-parser) 
 [![Total Downloads](https://poser.pugx.org/maxakawizard/gettext-parser/downloads.svg)](https://packagist.org/packages/maxakawizard/gettext-parser) 
@@ -68,7 +68,7 @@ For running those tests you'll need [PHPUnit](https://github.com/sebastianbergma
 It's recommended to use phpunit.phar.
 
 Just specify `tests/phpunit.xml` as config file for PHPUnit:
-```
+```bash
 php phpunit.phar -c tests/phpunit.xml
 ```
 
