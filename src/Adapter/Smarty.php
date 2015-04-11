@@ -5,10 +5,8 @@ use GettextParser\Pattern;
 
 class Smarty extends AbstractAdapter
 {
-    public function __construct()
+    protected function addPatterns()
     {
-        //add patterns
-
         // search for smarty modifier: {"Text to be localized"|_}
         $this->patterns[] = new Pattern("~\{\"([^\"]+)\"\|_([^\}]*)\}~");
 

@@ -12,6 +12,22 @@ abstract class AbstractAdapter
     protected $patterns = array();
 
     /**
+     *
+     */
+    public function __construct()
+    {
+        $this->addPatterns();
+    }
+
+    /**
+     *
+     */
+    protected function addPatterns()
+    {
+
+    }
+
+    /**
      * @param $data
      * @return array
      */

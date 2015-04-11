@@ -5,10 +5,8 @@ use GettextParser\Pattern;
 
 class JavaScript extends AbstractAdapter
 {
-    public function __construct()
+    protected function addPatterns()
     {
-        //add patterns
-
         //search for non-plural calls: _('Text'), _("Text"), _( 'Text' )
         $this->patterns[] = new Pattern("~[^n]+_\([\s]*[\'\"]{1}(.*)[\'\"]{1}[\s]*\)~Uu");
         $this->patterns[] = new Pattern("~^_\([\s]*[\'\"]{1}(.*)[\'\"]{1}[\s]*\)~Uu");

@@ -91,7 +91,7 @@ class Parser
     }
 
     /**
-     * @return GettextParserAdapter
+     * @return AbstractAdapter
      */
     public function getAdapter()
     {
@@ -164,28 +164,27 @@ class Parser
      */
     protected function writeOutput()
     {
-        //$this->log( print_r( $this->_phrases_list, true ) );
-        $gettextCallsBuffer = '';
+        $callsBuffer = '';
 
         foreach ($this->phrasesList as $phrase) {
             if (is_array($phrase)) {
                 //plural
-                $gettextCallsBuffer .= 'ngettext(';
+                $callsBuffer .= 'ngettext(';
                 foreach ($phrase as $idx => $item) {
                     if ($idx > 0) {
-                        $gettextCallsBuffer .= ', ';
+                        $callsBuffer .= ', ';
                     }
-                    $gettextCallsBuffer .= '"' . $item . '"';
+                    $callsBuffer .= '"' . $item . '"';
                 }
-                $gettextCallsBuffer .= ', 3);' . PHP_EOL;
+                $callsBuffer .= ', 3);' . PHP_EOL;
             } else {
                 //single
-                $gettextCallsBuffer .= '_("' . $phrase . '");' . PHP_EOL;
+                $callsBuffer .= '_("' . $phrase . '");' . PHP_EOL;
             }
         }
 
         $result = "<?php" . PHP_EOL . "/*" . PHP_EOL . implode(PHP_EOL, $this->filesList) . "*/";
-        $result .= str_repeat(PHP_EOL, 2) . $gettextCallsBuffer;
+        $result .= str_repeat(PHP_EOL, 2) . $callsBuffer;
 
         return ( bool )file_put_contents($this->resultPath, $result, FILE_BINARY);
     }
