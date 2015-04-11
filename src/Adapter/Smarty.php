@@ -3,6 +3,11 @@ namespace GettextParser\Adapter;
 
 use GettextParser\Pattern;
 
+/**
+ * Adapter for Smarty files processing
+ *
+ * @package GettextParser\Adapter
+ */
 class Smarty extends AbstractAdapter
 {
     protected function addPatterns()

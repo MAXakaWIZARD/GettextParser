@@ -3,6 +3,11 @@ namespace GettextParser\Adapter;
 
 use GettextParser\Pattern;
 
+/**
+ * Adapter for JavaScript files processing
+ *
+ * @package GettextParser\Adapter
+ */
 class JavaScript extends AbstractAdapter
 {
     protected function addPatterns()
