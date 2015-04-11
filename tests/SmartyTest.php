@@ -2,6 +2,7 @@
 namespace GettextParser\Tests;
 
 use GettextParser\Parser;
+use GettextParser\Adapter;
 
 /**
  *
@@ -9,12 +10,12 @@ use GettextParser\Parser;
 class SmartyTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var GettextParser
+     * @var Parser
      */
     private $parser;
 
     /**
-     * @var GettextParser_Adapter
+     * @var Adapter\Smarty
      */
     private $adapter;
 
