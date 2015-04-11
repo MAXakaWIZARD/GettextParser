@@ -1,5 +1,6 @@
 # gettext parser for Poedit
 [![Build Status](https://api.travis-ci.org/MAXakaWIZARD/GettextParser.png?branch=master)](https://travis-ci.org/MAXakaWIZARD/GettextParser) 
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/MAXakaWIZARD/GettextParser/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/MAXakaWIZARD/GettextParser/?branch=master)
 [![Latest Stable Version](https://poser.pugx.org/maxakawizard/gettext-parser/v/stable.svg)](https://packagist.org/packages/maxakawizard/gettext-parser) 
 [![Total Downloads](https://poser.pugx.org/maxakawizard/gettext-parser/downloads.svg)](https://packagist.org/packages/maxakawizard/gettext-parser) 
 [![Latest Unstable Version](https://poser.pugx.org/maxakawizard/gettext-parser/v/unstable.svg)](https://packagist.org/packages/maxakawizard/gettext-parser) 
