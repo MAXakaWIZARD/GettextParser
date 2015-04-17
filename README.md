@@ -12,8 +12,8 @@ This package is compliant with [PSR-4](http://www.php-fig.org/psr/4/), [PSR-1](h
 If you notice compliance oversights, please send a patch via pull request.
 
 ## Installation
-Currently works only on Windows.
-Just download sources and unpack to any folder.
+* Download sources and unpack to any folder.
+* If needed, create `config.php` file (see `config.php.dist`) and specify path to `xgettext` binary
 
 ## Supported formats
 ### JavaScript
@@ -58,7 +58,6 @@ native:
 
 ## Known issues
 * plurals are not supported for Smarty (planned)
-* works only on Windows (via xgettext.exe)
 
 ## Contributing
 Contribution is highly encouraged! Just send your pull-requests or create issues.
@@ -66,11 +65,11 @@ Contribution is highly encouraged! Just send your pull-requests or create issues
 ## Tests
 Library is covered with unit tests.
 For running those tests you'll need [PHPUnit](https://github.com/sebastianbergmann/phpunit/).
-It's recommended to use phpunit.phar.
+It's recommended to use `phpunit.phar`.
 
-Just specify `tests/phpunit.xml` as config file for PHPUnit:
+Just specify `tests/phpunit.xml.dist` as config file for PHPUnit (actually it can found it automatically):
 ```bash
-php phpunit.phar -c tests/phpunit.xml
+php phpunit.phar -c tests/phpunit.xml.dist
 ```
 
 ## License

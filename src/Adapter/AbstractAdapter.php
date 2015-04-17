@@ -22,10 +22,7 @@ abstract class AbstractAdapter
     /**
      *
      */
-    protected function addPatterns()
-    {
-
-    }
+    abstract protected function addPatterns();
 
     /**
      * @param $data

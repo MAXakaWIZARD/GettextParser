@@ -44,29 +44,40 @@ class Parser
     /**
      * @var string
      */
-    protected $xgettextDir = 'C:\Program Files (x86)\Poedit\GettextTools\bin';
+    protected $xgettextDir;
 
     /**
-     * @param $adapterName
-     * @param string $xgettextDir
+     * @var string
+     */
+    protected $xgettextBin;
+
+    /**
+     * @param string $adapterName
+     * @param string $xgettextBin
+     *
      * @throws \Exception
      */
-    public function __construct($adapterName, $xgettextDir = '')
-    {
+    public function __construct(
+        $adapterName,
+        $xgettextBin
+    ) {
         $this->basePath = realpath(__DIR__.'/..');
 
         //init files
-        $this->logPath = $this->basePath . '/log.txt';
+        $this->logPath = $this->basePath . '/po_parser.log';
         $this->resultPath = sys_get_temp_dir() . '/poedit_' . $adapterName . '_' . md5(microtime()) . '.php';
 
-        if ($xgettextDir) {
-            $this->xgettextDir = $xgettextDir;
+        if (!is_file($xgettextBin)) {
+            throw new \Exception('Invalid xgettext binary path supplied');
         }
 
-        if (is_string($adapterName)) {
+        $this->xgettextBin = $xgettextBin;
+        $this->xgettextDir = dirname($this->xgettextBin);
+
+        if (is_string($adapterName) && $adapterName !== '') {
             $this->loadAdapter($adapterName);
         } else {
-            throw new \Exception('AdapterName not specified');
+            throw new \Exception('Invalid adapterName supplied');
         }
     }
 
@@ -86,7 +97,7 @@ class Parser
         if (class_exists($targetClassName)) {
             $this->adapter = new $targetClassName;
         } else {
-            throw new \Exception("Cannot load Adapter {$adapterName}");
+            throw new \Exception("Cannot load Adapter \"{$adapterName}\"");
         }
     }
 
@@ -196,7 +207,7 @@ class Parser
     {
         chdir($this->xgettextDir);
 
-        $cmd = 'xgettext.exe --force-po -o "' . $params[2] . '" ' . $params[3] . ' ' . $params[4] . ' "'
+        $cmd = $this->xgettextBin . ' --force-po -o "' . $params[2] . '" ' . $params[3] . ' ' . $params[4] . ' "'
             . $this->resultPath . '"';
 
         $this->log($cmd);

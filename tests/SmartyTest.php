@@ -24,7 +24,7 @@ class SmartyTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->parser = new Parser('Smarty');
+        $this->parser = new Parser('Smarty', XGETTEXT_BIN);
         $this->adapter = $this->parser->getAdapter();
     }
 

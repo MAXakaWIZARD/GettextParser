@@ -24,7 +24,7 @@ class JavascriptTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->parser = new Parser('JavaScript');
+        $this->parser = new Parser('JavaScript', XGETTEXT_BIN);
         $this->adapter = $this->parser->getAdapter();
     }
 
