@@ -57,28 +57,32 @@ class Parser
      *
      * @throws \Exception
      */
-    public function __construct(
-        $adapterName,
-        $xgettextBin
-    ) {
-        $this->basePath = realpath(__DIR__.'/..');
+    public function __construct($adapterName, $xgettextBin)
+    {
+        $this->basePath = realpath(__DIR__ . '/..');
 
         //init files
         $this->logPath = $this->basePath . '/po_parser.log';
         $this->resultPath = sys_get_temp_dir() . '/poedit_' . $adapterName . '_' . md5(microtime()) . '.php';
 
+        $this->setXgettextBin($xgettextBin);
+
+        $this->loadAdapter($adapterName);
+    }
+
+    /**
+     * @param $xgettextBin
+     *
+     * @throws \Exception
+     */
+    protected function setXgettextBin($xgettextBin)
+    {
         if (!is_file($xgettextBin)) {
             throw new \Exception('Invalid xgettext binary path supplied');
         }
 
         $this->xgettextBin = $xgettextBin;
         $this->xgettextDir = dirname($this->xgettextBin);
-
-        if (is_string($adapterName) && $adapterName !== '') {
-            $this->loadAdapter($adapterName);
-        } else {
-            throw new \Exception('Invalid adapterName supplied');
-        }
     }
 
     /**
@@ -92,6 +96,10 @@ class Parser
      */
     protected function loadAdapter($adapterName)
     {
+        if (!is_string($adapterName) || $adapterName === '') {
+            throw new \Exception('Invalid adapterName supplied');
+        }
+
         $targetClassName = '\\GettextParser\\Adapter\\' . $adapterName;
 
         if (class_exists($targetClassName)) {
