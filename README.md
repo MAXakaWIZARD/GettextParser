@@ -1,4 +1,4 @@
-# gettext parser for Poedit
+# Source code parser for Poedit
 [![Build Status](https://api.travis-ci.org/MAXakaWIZARD/GettextParser.png?branch=master)](https://travis-ci.org/MAXakaWIZARD/GettextParser) 
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/MAXakaWIZARD/GettextParser/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/MAXakaWIZARD/GettextParser/?branch=master)
 [![Coverage Status](https://coveralls.io/repos/MAXakaWIZARD/GettextParser/badge.svg?branch=master)](https://coveralls.io/r/MAXakaWIZARD/GettextParser?branch=master)
@@ -7,6 +7,7 @@
 [![License](https://poser.pugx.org/maxakawizard/gettext-parser/license.svg)](https://packagist.org/packages/maxakawizard/gettext-parser)
 
 Library for syncing gettext catalogs with Smarty and Javascript sources.
+`Poedit` already has parser for `*.php` files out of the box.
 
 This package is compliant with [PSR-4](http://www.php-fig.org/psr/4/), [PSR-1](http://www.php-fig.org/psr/1/), and [PSR-2](http://www.php-fig.org/psr/2/).
 If you notice compliance oversights, please send a patch via pull request.
@@ -16,6 +17,7 @@ If you notice compliance oversights, please send a patch via pull request.
 * If needed, create `config.php` file (see `config.php.dist`) and specify path to `xgettext` binary
 
 ## Supported formats
+
 ### JavaScript
 [jQuery.gettext](https://github.com/jakob-stoeck/jquery-gettext) plugin:
 ```javascript
@@ -35,7 +37,7 @@ native:
 ```
 
 ## Usage
-1. Create new parser: `File->Preferences->Parsers->New`
+1. Create new parser in `Poedit`: `File->Preferences->Parsers->New`
 2. Update your gettext catalog: `Catalogue->Update from sources`
 
 ### Parser params:

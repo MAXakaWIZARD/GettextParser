@@ -1,6 +1,6 @@
 {
     "name": "maxakawizard/gettext-parser",
-    "description": "Gettext parser for Windows",
+    "description": "Gettext parser for source code",
     "homepage": "https://github.com/MAXakaWIZARD/GettextParser",
     "authors" : [
         {
