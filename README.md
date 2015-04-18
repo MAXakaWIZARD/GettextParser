@@ -9,6 +9,7 @@
 
 Library for syncing gettext catalogs with Smarty and Javascript sources.
 `Poedit` already has parser for `*.php` files out of the box.
+Library parses files and writes results as `php` files, whose are processed by Poedit PHP parser.
 
 This package is compliant with [PSR-4](http://www.php-fig.org/psr/4/), [PSR-1](http://www.php-fig.org/psr/1/), and [PSR-2](http://www.php-fig.org/psr/2/).
 If you notice compliance oversights, please send a patch via pull request.

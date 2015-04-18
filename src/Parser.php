@@ -52,6 +52,11 @@ class Parser
     protected $xgettextBin;
 
     /**
+     * @var string
+     */
+    protected $writeBuffer;
+
+    /**
      * @param string $adapterName
      * @param string $xgettextBin
      *
@@ -183,29 +188,39 @@ class Parser
      */
     protected function writeOutput()
     {
-        $callsBuffer = '';
+        $this->writeBuffer = '';
 
         foreach ($this->phrasesList as $phrase) {
-            if (is_array($phrase)) {
-                //plural
-                $callsBuffer .= 'ngettext(';
-                foreach ($phrase as $idx => $item) {
-                    if ($idx > 0) {
-                        $callsBuffer .= ', ';
-                    }
-                    $callsBuffer .= '"' . $item . '"';
-                }
-                $callsBuffer .= ', 3);' . PHP_EOL;
-            } else {
-                //single
-                $callsBuffer .= '_("' . $phrase . '");' . PHP_EOL;
-            }
+            $this->writePhrase($phrase);
         }
 
-        $result = "<?php" . PHP_EOL . "/*" . PHP_EOL . implode(PHP_EOL, $this->filesList) . "*/";
-        $result .= str_repeat(PHP_EOL, 2) . $callsBuffer;
+        $result = "<?php" . PHP_EOL . "/*" . PHP_EOL;
+        $result .= implode(PHP_EOL, $this->filesList);
+        $result .= PHP_EOL . "*/";
+        $result .= str_repeat(PHP_EOL, 2) . $this->writeBuffer;
 
         return ( bool )file_put_contents($this->resultPath, $result, FILE_BINARY);
+    }
+
+    /**
+     * @param $phrase
+     */
+    protected function writePhrase($phrase)
+    {
+        if (is_array($phrase)) {
+            //plural
+            $this->writeBuffer .= 'ngettext(';
+            foreach ($phrase as $idx => $item) {
+                if ($idx > 0) {
+                    $this->writeBuffer .= ', ';
+                }
+                $this->writeBuffer .= '"' . $item . '"';
+            }
+            $this->writeBuffer .= ', 3);' . PHP_EOL;
+        } else {
+            //single
+            $this->writeBuffer .= '_("' . $phrase . '");' . PHP_EOL;
+        }
     }
 
     /**
@@ -235,5 +250,13 @@ class Parser
         $f = fopen($this->logPath, 'a');
         fwrite($f, $message . PHP_EOL);
         fclose($f);
+    }
+
+    /**
+     * @return string
+     */
+    public function getResultPath()
+    {
+        return $this->resultPath;
     }
 }
