@@ -7,3 +7,4 @@ This changelog references the relevant changes (bug and security fixes) done.
 
  * *nix-like OS support
  * configurable xgettext binary path (via `config.php`)
+ 
