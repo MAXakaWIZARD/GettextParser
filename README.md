@@ -3,10 +3,9 @@
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/MAXakaWIZARD/GettextParser/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/MAXakaWIZARD/GettextParser/?branch=master)
 [![SensioLabs Insight](https://img.shields.io/sensiolabs/i/6150179a-a868-4026-aed9-7f95159b47f4.svg)](https://insight.sensiolabs.com/projects/6150179a-a868-4026-aed9-7f95159b47f4)
 [![Coverage Status](https://coveralls.io/repos/MAXakaWIZARD/GettextParser/badge.svg?branch=master)](https://coveralls.io/r/MAXakaWIZARD/GettextParser?branch=master)
-[![Latest Stable Version](https://poser.pugx.org/maxakawizard/gettext-parser/v/stable.svg)](https://packagist.org/packages/maxakawizard/gettext-parser) 
-[![Total Downloads](https://poser.pugx.org/maxakawizard/gettext-parser/downloads.svg)](https://packagist.org/packages/maxakawizard/gettext-parser) 
+[![GitHub release](https://img.shields.io/github/release/MAXakaWIZARD/GettextParser.svg)](https://packagist.org/packages/maxakawizard/gettext-parser) 
 [![Minimum PHP Version](http://img.shields.io/badge/php-%3E%3D%205.3-8892BF.svg)](https://php.net/)
-[![License](https://poser.pugx.org/maxakawizard/gettext-parser/license.svg)](https://packagist.org/packages/maxakawizard/gettext-parser)
+[![License](https://img.shields.io/packagist/l/maxakawizard/gettext-parser.svg)](https://packagist.org/packages/maxakawizard/gettext-parser)
 
 Library for syncing gettext catalogs with Smarty and Javascript sources.
 `Poedit` already has parser for `*.php` files out of the box.
