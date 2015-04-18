@@ -188,18 +188,24 @@ class Parser
      */
     protected function writeOutput()
     {
-        $this->writeBuffer = '';
+        $this->writeHeader();
 
         foreach ($this->phrasesList as $phrase) {
             $this->writePhrase($phrase);
         }
 
-        $result = "<?php" . PHP_EOL . "/*" . PHP_EOL;
-        $result .= implode(PHP_EOL, $this->filesList);
-        $result .= PHP_EOL . "*/";
-        $result .= str_repeat(PHP_EOL, 2) . $this->writeBuffer;
+        return (bool) file_put_contents($this->resultPath, $this->writeBuffer, FILE_BINARY);
+    }
 
-        return ( bool )file_put_contents($this->resultPath, $result, FILE_BINARY);
+    /**
+     *
+     */
+    protected function writeHeader()
+    {
+        $this->writeBuffer = "<?php" . PHP_EOL . "/*" . PHP_EOL;
+        $this->writeBuffer .= implode(PHP_EOL, $this->filesList);
+        $this->writeBuffer .= PHP_EOL . "*/";
+        $this->writeBuffer .= str_repeat(PHP_EOL, 2);
     }
 
     /**

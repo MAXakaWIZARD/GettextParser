@@ -47,15 +47,6 @@ class ParserTest extends \PHPUnit_Framework_TestCase
     /**
      *
      */
-    public function testGeneral()
-    {
-        $parser = new Parser('Smarty', XGETTEXT_BIN);
-        $parser->run($this->getParserParams('Smarty', TEST_DATA_PATH . '/general.tpl'));
-    }
-
-    /**
-     *
-     */
     public function testEmpty()
     {
         $parser = new Parser('Smarty', XGETTEXT_BIN);
@@ -65,10 +56,48 @@ class ParserTest extends \PHPUnit_Framework_TestCase
     /**
      *
      */
+    public function testGeneral()
+    {
+        $parser = new Parser('Smarty', XGETTEXT_BIN);
+        $parser->run($this->getParserParams('Smarty', TEST_DATA_PATH . '/general.tpl'));
+
+        $templateFilePath = TEST_DATA_PATH . '/general_result.php';
+        $expectedFilePath = TEST_DATA_PATH . '/general_result_tmp.php';
+        $this->prepareResultFile($templateFilePath, $expectedFilePath);
+
+        $this->assertFileEquals($expectedFilePath, $parser->getResultPath());
+        @unlink($expectedFilePath);
+    }
+
+    /**
+     *
+     */
     public function testPlurals()
     {
         $parser = new Parser('JavaScript', XGETTEXT_BIN);
         $parser->run($this->getParserParams('JavaScript', TEST_DATA_PATH . '/plurals.js'));
+
+        $templateFilePath = TEST_DATA_PATH . '/plurals_result.php';
+        $expectedFilePath = TEST_DATA_PATH . '/plurals_result_tmp.php';
+        $this->prepareResultFile($templateFilePath, $expectedFilePath);
+
+        $this->assertFileEquals($expectedFilePath, $parser->getResultPath());
+        @unlink($expectedFilePath);
+    }
+
+    /**
+     * @param $templatePath
+     * @param $outputPath
+     */
+    protected function prepareResultFile($templatePath, $outputPath)
+    {
+        $content = str_replace(
+            '%BASE_PATH%',
+            BASE_PATH,
+            file_get_contents($templatePath)
+        );
+        file_put_contents($outputPath, $content);
+        $this->assertFileExists($outputPath);
     }
 
     /**
