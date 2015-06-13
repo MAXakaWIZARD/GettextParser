@@ -1,8 +1,6 @@
 <?php
 namespace GettextParser\Adapter;
 
-use GettextParser\Pattern;
-
 /**
  * Adapter for JavaScript files processing
  *
@@ -10,22 +8,30 @@ use GettextParser\Pattern;
  */
 class JavaScript extends AbstractAdapter
 {
-    protected function addPatterns()
-    {
-        //search for non-plural calls: _('Text'), _("Text"), _( 'Text' )
-        $this->patterns[] = new Pattern("~[^n]+_\([\s]*[\'\"]{1}(.*)[\'\"]{1}[\s]*\)~Uu");
-        $this->patterns[] = new Pattern("~^_\([\s]*[\'\"]{1}(.*)[\'\"]{1}[\s]*\)~Uu");
+    /**
+     * @var array
+     */
+    protected $patternConfig = array(
+        /**
+         * @example non-plural calls: _('Text'), _("Text"), _( 'Text' )
+         */
+        array(
+            'pattern' => array(
+                "~[^n]+_\([\s]*[\'\"]{1}(.*)[\'\"]{1}[\s]*\)~Uu",
+                "~^_\([\s]*[\'\"]{1}(.*)[\'\"]{1}[\s]*\)~Uu"
+            ),
+            'plural' => false
+        ),
 
-        //search for plural calls: n_( 'country', 'countries', 3 );
-        $this->patterns[] = new Pattern(
-            "~n_\([\s]*[\'\"]{1}(.*)[\'\"]{1}[\s]*,[\s]*[\'\"]{1}(.*)[\'\"]{1}[\s]*,[\s]*(.*)[\s]*\)~Uu",
-            true
-        );
-
-        //search for plural calls: n_( 'день', 'дней', 3 );
-        $this->patterns[] = new Pattern(
-            "~n_\([\s]*[\'\"]{1}(.*)[\'\"]{1}[\s]*,[\s]*[\'\"]{1}(.*)[\'\"]{1}[\s]*,[\s]*[\'\"]{1}(.*)[\'\"]{1}[\s]*,[\s]*(.*)[\s]*\)~Uu",
-            true
-        );
-    }
+        /**
+         * @example plural calls: n_( 'country', 'countries', 3 )
+         */
+        array(
+            'pattern' => array(
+                "~n_\([\s]*[\'\"]{1}(.*)[\'\"]{1}[\s]*,[\s]*[\'\"]{1}(.*)[\'\"]{1}[\s]*,[\s]*(.*)[\s]*\)~Uu",
+                "~n_\([\s]*[\'\"]{1}(.*)[\'\"]{1}[\s]*,[\s]*[\'\"]{1}(.*)[\'\"]{1}[\s]*,[\s]*[\'\"]{1}(.*)[\'\"]{1}[\s]*,[\s]*(.*)[\s]*\)~Uu"
+            ),
+            'plural' => true
+        )
+    );
 }

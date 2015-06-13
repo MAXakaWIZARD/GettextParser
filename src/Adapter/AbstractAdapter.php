@@ -6,6 +6,11 @@ use GettextParser\Pattern;
 abstract class AbstractAdapter
 {
     /**
+     * @var array
+     */
+    protected $patternConfig = array();
+
+    /**
      * stores parsing patterns
      * @var Pattern[]
      */
@@ -22,7 +27,14 @@ abstract class AbstractAdapter
     /**
      *
      */
-    abstract protected function addPatterns();
+    protected function addPatterns()
+    {
+        foreach ($this->patternConfig as $item) {
+            foreach ($item['pattern'] as $pattern) {
+                $this->patterns[] = new Pattern($pattern, $item['plural']);
+            }
+        }
+    }
 
     /**
      * @param $data

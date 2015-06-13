@@ -1,8 +1,6 @@
 <?php
 namespace GettextParser\Adapter;
 
-use GettextParser\Pattern;
-
 /**
  * Adapter for Smarty files processing
  *
@@ -10,18 +8,33 @@ use GettextParser\Pattern;
  */
 class Smarty extends AbstractAdapter
 {
-    protected function addPatterns()
-    {
-        // search for smarty modifier: {"Text to be localized"|_}
-        $this->patterns[] = new Pattern("~\{\"([^\"]+)\"\|_([^\}]*)\}~");
+    /**
+     * @var array
+     */
+    protected $patternConfig = array(
+        array(
+            'pattern' => array(
+                /**
+                 * @example modifier: {"Text to be localized"|_}
+                 */
+                "~\{\"([^\"]+)\"\|_([^\}]*)\}~",
 
-        //search for block.t: {t}Text to be localized{/t}
-        $this->patterns[] = new Pattern("~\{t\}([^\{]+)\{/t\}~");
+                /**
+                 * @example block.t: {t}Text to be localized{/t}
+                 */
+                "~\{t\}([^\{]+)\{/t\}~",
 
-        //search for block.t: {t sprintf_args=[]}Text to be localized{/t}
-        $this->patterns[] = new Pattern("~\{t sprintf_args=[^\}]+\}([^\{]+)\{/t\}~");
+                /**
+                 * @example block.t: {t sprintf_args=[]}Text to be localized{/t}
+                 */
+                "~\{t sprintf_args=[^\}]+\}([^\{]+)\{/t\}~",
 
-        // search for gettext function call: {_("Text to be localized")}
-        $this->patterns[] = new Pattern("~\{_\((?:\"|')([^\)]+)(?:\"|')\)\}~");
-    }
+                /**
+                 * @example gettext function call: {_("Text to be localized")}
+                 */
+                "~\{_\((?:\"|')([^\)]+)(?:\"|')\)\}~"
+            ),
+            'plural' => false
+        )
+    );
 }
