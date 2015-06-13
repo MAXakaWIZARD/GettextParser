@@ -37,16 +37,27 @@ class Pattern
 
         $results = array();
         foreach ($matches as $match) {
-            if ($this->isPlural()) {
-                $startPos = 1;
-                $length = count($match) - $startPos - 1;
-                $results[] = array_slice($match, $startPos, $length);
-            } else {
-                $results[] = $match[1];
-            }
+            $results[] = $this->processMatch($match);
         }
 
         return $results;
+    }
+
+    /**
+     * @param array $match
+     *
+     * @return array|string
+     */
+    protected function processMatch($match)
+    {
+        if ($this->isPlural()) {
+            $startPos = 1;
+            $length = count($match) - $startPos - 1;
+
+            return array_slice($match, $startPos, $length);
+        }
+
+        return $match[1];
     }
 
     /**
